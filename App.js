@@ -1,97 +1,70 @@
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import {
-  StyleSheet,
-  TextInput,
-  SafeAreaView,
-  Platform,
-  Pressable,
-  View,
-  Text,
-  KeyboardAvoidingView,
-} from 'react-native';
+  NavigationContainer,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-const styles = StyleSheet.create({
-  textInput: {
-    borderWidth: 1,
-    borderColor: '#d3d3d3',
-    margin: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-    height: Platform.OS === 'ios' ? 44 : 42,
-    fontSize: 18,
-    borderRadius: 10,
-  },
-});
+import {View} from 'react-native';
+
+const MainStack = createNativeStackNavigator();
 
 const App = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const [loginForm, setLoginForm] = useState({
-    email: '',
-    password: '',
-  });
-
-  const onSubmit = () => {
-    console.warn(loginForm);
-  };
+  const navigationRef = useNavigationContainerRef();
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        justifyContent: 'flex-end',
+    <NavigationContainer
+      ref={navigationRef}
+      fallback={() => <View>Loading....</View>}
+      onReady={() => {
+        const isFirstTime = false;
+        if (isFirstTime) {
+          navigationRef.navigate('Intro');
+        } else {
+          navigationRef.resetRoot({
+            index: 0,
+            routes: [{name: 'Main'}],
+          });
+        }
       }}>
-      <KeyboardAvoidingView behavior="padding" enabled={Platform.OS === 'ios'}>
-        <TextInput
-          ref={emailRef}
-          style={styles.textInput}
-          value={loginForm.email}
-          nativeID="txtEmail"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoCompleteType="email"
-          textContentType="emailAddress"
-          returnKeyType="next"
-          onSubmitEditing={() => {
-            passwordRef.current.focus();
-          }}
-          onChangeText={text => setLoginForm({...loginForm, email: text})}
+      <MainStack.Navigator>
+        <MainStack.Screen
+          name="Intro"
+          getComponent={() => require('./src/screens/IntroScreen').default}
         />
-        <TextInput
-          ref={passwordRef}
-          style={styles.textInput}
-          value={loginForm.password}
-          nativeID="txtPassword"
-          secureTextEntry
-          returnKeyType="go"
-          onChangeText={text => setLoginForm({...loginForm, password: text})}
-          onSubmitEditing={onSubmit}
-        />
-        <Pressable
-          android_ripple={{
-            color: 'red',
+        <MainStack.Group screenOptions={{presentation: 'modal',  }}>
+          <MainStack.Screen
+            name="Login"
+            getComponent={() =>
+              require('./src/screens/AuthScreens/LoginScreen').default
+            }
+          />
+          <MainStack.Screen
+            name="Register"
+            getComponent={() =>
+              require('./src/screens/AuthScreens/RegisterScreen').default
+            }
+          />
+          <MainStack.Screen
+            name="ForgotPassword"
+            getComponent={() =>
+              require('./src/screens/AuthScreens/ForgotPasswordScreen').default
+            }
+          />
+          <MainStack.Screen
+            name="Cart"
+            getComponent={() => require('./src/screens/CartScreen').default}
+          />
+        </MainStack.Group>
+        <MainStack.Screen
+          name="Main"
+          getComponent={() => require('./src/screens/MainScreen').default}
+          options={{
+            headerShown: false,
           }}
-          onPress={onSubmit}
-          style={{
-            backgroundColor: 'blue',
-            height: 44,
-            justifyContent: 'center',
-            alignItems: 'center',
-            margin: 10,
-          }}>
-          <View style={{borderRadius: 10}}>
-            <Text
-              style={{
-                color: '#fff',
-                fontWeight: '600',
-                fontSize: 16,
-              }}>
-              Login
-            </Text>
-          </View>
-        </Pressable>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        />
+      </MainStack.Navigator>
+    </NavigationContainer>
   );
 };
 

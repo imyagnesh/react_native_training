@@ -96,6 +96,13 @@
 			name = NousApp;
 			sourceTree = "<group>";
 		};
+		1E7BEF69507641EAA86DAC52 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +140,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				4B87EA157E1C805F07D9125A /* Pods */,
+				1E7BEF69507641EAA86DAC52 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
