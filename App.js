@@ -2,7 +2,10 @@ import React from 'react';
 import {
   NavigationContainer,
   useNavigationContainerRef,
+  DefaultTheme,
+  DarkTheme
 } from '@react-navigation/native';
+import { useColorScheme } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from 'react-redux'
 import store from './configureStore'
@@ -11,13 +14,23 @@ import {View} from 'react-native';
 
 const MainStack = createNativeStackNavigator();
 
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: 'rgb(255, 45, 85)',
+  },
+};
+
 const App = () => {
   const navigationRef = useNavigationContainerRef();
+  const scheme = useColorScheme();
 
   return (
     <Provider store={store}>
     <NavigationContainer
-      ref={navigationRef}
+        ref={navigationRef}
+        theme={scheme === 'dark' ? DarkTheme : DefaultTheme}
       fallback={() => <View>Loading....</View>}
       onReady={() => {
         const isFirstTime = false;

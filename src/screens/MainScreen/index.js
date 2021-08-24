@@ -1,9 +1,30 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeIcon from '../../../assets/icons/home.svg';
 import SettingsIcon from '../../../assets/icons/settings.svg';
 
 const Tab = createBottomTabNavigator();
+
+const HomeStack = createNativeStackNavigator();
+
+const Home = () => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="HomeScreen"
+        getComponent={() => require('./HomeScreen').default}
+      />
+      <HomeStack.Screen
+        name="DetailsScreen"
+        getComponent={() => require('./DetailsScreen').default}
+        options={{
+          headerTransparent: true,
+        }}
+      />
+    </HomeStack.Navigator>
+  );
+};
 
 const MainScreen = ({navigation: {navigate}}) => {
   return (
@@ -21,11 +42,10 @@ const MainScreen = ({navigation: {navigate}}) => {
               return null;
           }
         },
+        headerShown: false,
+        tabBarAllowFontScaling: false,
       })}>
-      <Tab.Screen
-        name="Home"
-        getComponent={() => require('./HomeScreen').default}
-      />
+      <Tab.Screen name="Home" component={Home} />
       <Tab.Screen
         name="Settings"
         getComponent={() => require('./SettingsScreen').default}

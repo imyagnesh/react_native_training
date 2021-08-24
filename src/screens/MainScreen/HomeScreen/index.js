@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useTheme} from '@react-navigation/native';
 import {View, FlatList, Text, ActivityIndicator} from 'react-native';
 import {getGenericPassword} from 'react-native-keychain';
 import {useState} from 'react';
@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import {loadProducts} from '../../../actions/productsAction';
 import FastImage from 'react-native-fast-image';
 import useOriantation from '../../../hooks/useOriantation';
+import {RectButton} from 'react-native-gesture-handler';
 
 const HomeScreen = ({
   navigation: {navigate},
@@ -18,10 +19,13 @@ const HomeScreen = ({
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const {oriantation} = useOriantation();
   const [page, setPage] = useState(1);
+  const { colors } = useTheme();
 
   useEffect(() => {
     loadProductsRequest(1);
   }, [loadProductsRequest]);
+
+  console.warn(oriantation.fontScale);
 
   useEffect(() => {
     const getUser = async () => {
@@ -49,12 +53,16 @@ const HomeScreen = ({
 
   const renderItem = ({item}) => {
     return (
-      <View
+      <RectButton
+        onPress={() => {
+          navigate('DetailsScreen', {item});
+        }}
         style={{
           flex: 1,
           flexDirection: 'row',
-          margin: 10,
           height: 100,
+          paddingHorizontal: 10,
+          paddingVertical: 5,
         }}>
         <FastImage
           source={{
@@ -70,10 +78,14 @@ const HomeScreen = ({
           }}
         />
         <View style={{flex: 1, paddingHorizontal: 10}}>
-          <Text>{item.id}</Text>
-          <Text>{item.title}</Text>
+          <Text
+            style={{ color: colors.text}}
+            allowFontScaling={false}>
+            {item.id}
+          </Text>
+          <Text style={{ color: colors.text}} allowFontScaling={false}>{item.title}</Text>
         </View>
-      </View>
+      </RectButton>
     );
   };
 
@@ -93,10 +105,19 @@ const HomeScreen = ({
           data={products.data}
           renderItem={renderItem}
           numColumns={1}
+          ItemSeparatorComponent={() => (
+            <View
+              style={{
+                height: 1,
+                marginHorizontal: 10,
+                backgroundColor: colors.border,
+              }}
+            />
+          )}
           onEndReached={onEndReached}
           ListFooterComponent={() => {
             if (products.loading) {
-              return <ActivityIndicator color="red" size="large" />;
+              return <ActivityIndicator color={colors.primary} size="large" />;
             }
             return null;
           }}
