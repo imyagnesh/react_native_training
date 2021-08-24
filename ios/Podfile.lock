@@ -359,6 +359,8 @@ PODS:
     - SDWebImageWebPCoder (~> 0.6.1)
   - RNGestureHandler (1.10.3):
     - React-Core
+  - RNKeychain (7.0.0):
+    - React-Core
   - RNScreens (3.5.0):
     - React-Core
     - React-RCTImage
@@ -431,6 +433,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -523,6 +526,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fast-image"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNKeychain:
+    :path: "../node_modules/react-native-keychain"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSVG:
@@ -579,6 +584,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: b7c6564ce662366dd44d0189456183ef7eda2d4d
   RNFastImage: a7384db75df352500261e8e8f1ac2026def26102
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+  RNKeychain: f75b8c8b2f17d3b2aa1f25b4a0ac5b83d947ff8f
   RNScreens: 01ab149b5dd5c27f5ff26741b1d2bdf2cee1af35
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d

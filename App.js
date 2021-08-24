@@ -3,7 +3,9 @@ import {
   NavigationContainer,
   useNavigationContainerRef,
 } from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Provider } from 'react-redux'
+import store from './configureStore'
 
 import {View} from 'react-native';
 
@@ -13,6 +15,7 @@ const App = () => {
   const navigationRef = useNavigationContainerRef();
 
   return (
+    <Provider store={store}>
     <NavigationContainer
       ref={navigationRef}
       fallback={() => <View>Loading....</View>}
@@ -65,7 +68,8 @@ const App = () => {
         />
       </MainStack.Navigator>
     </NavigationContainer>
-  );
+    </Provider>
+      );
 };
 
 export default App;

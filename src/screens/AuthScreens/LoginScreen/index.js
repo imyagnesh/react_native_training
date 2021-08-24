@@ -1,13 +1,13 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import {View} from 'react-native';
+import {setGenericPassword} from 'react-native-keychain';
 import Form from '../../../components/Form';
 import {fields, initialValues} from './fields';
 
 const LoginScreen = ({navigation: {goBack}}) => {
-  const onSubmit = async values => {
+  const onSubmit = async ({username, password}) => {
     try {
-      await AsyncStorage.setItem('@storage_Key', JSON.stringify(values));
+      await setGenericPassword(username, password);
       goBack();
     } catch (error) {}
   };
