@@ -1,27 +1,26 @@
 import React from 'react';
 import {View} from 'react-native';
-import {setGenericPassword} from 'react-native-keychain';
+import {connect} from 'react-redux';
 import Form from '../../../components/Form';
 import {fields, initialValues} from './fields';
 
-const LoginScreen = ({navigation: {goBack}}) => {
-  const onSubmit = async ({username, password}) => {
-    try {
-      await setGenericPassword(username, password);
-      goBack();
-    } catch (error) {}
-  };
-
+const LoginScreen = ({navigation: {goBack}, loginRequest}) => {
   return (
     <View>
       <Form
         fields={fields}
         btnText="Login"
         initialValues={initialValues}
-        onSubmit={onSubmit}
+        onSubmit={loginRequest}
       />
     </View>
   );
 };
 
-export default LoginScreen;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => ({
+  loginRequest: (value, meta) => dispatch({type: 'LOGIN_REQUEST', value, meta}),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

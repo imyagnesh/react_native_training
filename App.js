@@ -3,12 +3,12 @@ import {
   NavigationContainer,
   useNavigationContainerRef,
   DefaultTheme,
-  DarkTheme
+  DarkTheme,
 } from '@react-navigation/native';
-import { useColorScheme } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Provider } from 'react-redux'
-import store from './configureStore'
+import {useColorScheme} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Provider} from 'react-redux';
+import store from './configureStore';
 
 import {View} from 'react-native';
 
@@ -28,61 +28,63 @@ const App = () => {
 
   return (
     <Provider store={store}>
-    <NavigationContainer
+      <NavigationContainer
         ref={navigationRef}
         theme={scheme === 'dark' ? DarkTheme : DefaultTheme}
-      fallback={() => <View>Loading....</View>}
-      onReady={() => {
-        const isFirstTime = false;
-        if (isFirstTime) {
-          navigationRef.navigate('Intro');
-        } else {
-          navigationRef.resetRoot({
-            index: 0,
-            routes: [{name: 'Main'}],
-          });
-        }
-      }}>
-      <MainStack.Navigator>
-        <MainStack.Screen
-          name="Intro"
-          getComponent={() => require('./src/screens/IntroScreen').default}
-        />
-        <MainStack.Group screenOptions={{presentation: 'modal',  }}>
+        fallback={() => <View>Loading....</View>}
+        onReady={() => {
+          navigationRef.navigate('Login');
+          // const isFirstTime = false;
+          // if (isFirstTime) {
+          //   navigationRef.navigate('Login');
+          // } else {
+          //   navigationRef.resetRoot({
+          //     index: 0,
+          //     routes: [{name: 'Main'}],
+          //   });
+          // }
+        }}>
+        <MainStack.Navigator>
           <MainStack.Screen
-            name="Login"
-            getComponent={() =>
-              require('./src/screens/AuthScreens/LoginScreen').default
-            }
+            name="Intro"
+            getComponent={() => require('./src/screens/IntroScreen').default}
           />
+          <MainStack.Group screenOptions={{presentation: 'modal'}}>
+            <MainStack.Screen
+              name="Login"
+              getComponent={() =>
+                require('./src/screens/AuthScreens/LoginScreen').default
+              }
+            />
+            <MainStack.Screen
+              name="Register"
+              getComponent={() =>
+                require('./src/screens/AuthScreens/RegisterScreen').default
+              }
+            />
+            <MainStack.Screen
+              name="ForgotPassword"
+              getComponent={() =>
+                require('./src/screens/AuthScreens/ForgotPasswordScreen')
+                  .default
+              }
+            />
+            <MainStack.Screen
+              name="Cart"
+              getComponent={() => require('./src/screens/CartScreen').default}
+            />
+          </MainStack.Group>
           <MainStack.Screen
-            name="Register"
-            getComponent={() =>
-              require('./src/screens/AuthScreens/RegisterScreen').default
-            }
+            name="Main"
+            getComponent={() => require('./src/screens/MainScreen').default}
+            options={{
+              headerShown: false,
+            }}
           />
-          <MainStack.Screen
-            name="ForgotPassword"
-            getComponent={() =>
-              require('./src/screens/AuthScreens/ForgotPasswordScreen').default
-            }
-          />
-          <MainStack.Screen
-            name="Cart"
-            getComponent={() => require('./src/screens/CartScreen').default}
-          />
-        </MainStack.Group>
-        <MainStack.Screen
-          name="Main"
-          getComponent={() => require('./src/screens/MainScreen').default}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </MainStack.Navigator>
-    </NavigationContainer>
+        </MainStack.Navigator>
+      </NavigationContainer>
     </Provider>
-      );
+  );
 };
 
 export default App;
