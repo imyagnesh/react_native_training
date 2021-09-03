@@ -9,8 +9,9 @@ import {useColorScheme} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
 import store from './configureStore';
-
 import {View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {navigationRef} from './rootNavigator';
 
 const MainStack = createNativeStackNavigator();
 
@@ -23,7 +24,6 @@ const MyTheme = {
 };
 
 const App = () => {
-  const navigationRef = useNavigationContainerRef();
   const scheme = useColorScheme();
 
   return (
@@ -32,17 +32,17 @@ const App = () => {
         ref={navigationRef}
         theme={scheme === 'dark' ? DarkTheme : DefaultTheme}
         fallback={() => <View>Loading....</View>}
-        onReady={() => {
-          navigationRef.navigate('Login');
-          // const isFirstTime = false;
-          // if (isFirstTime) {
-          //   navigationRef.navigate('Login');
-          // } else {
-          //   navigationRef.resetRoot({
-          //     index: 0,
-          //     routes: [{name: 'Main'}],
-          //   });
-          // }
+        onReady={async () => {
+          const isFirstTime = await AsyncStorage.getItem('@NousApp_firstTime');
+
+          if (isFirstTime) {
+            navigationRef.resetRoot({
+              index: 0,
+              routes: [{name: 'Main'}],
+            });
+          } else {
+            navigationRef.navigate('Login');
+          }
         }}>
         <MainStack.Navigator>
           <MainStack.Screen

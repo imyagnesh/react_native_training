@@ -8,8 +8,6 @@ import Video from 'react-native-video';
 const SettingsScreen = () => {
   const [response, setResponse] = useState();
 
-  console.warn(response);
-
   return (
     <View>
       <ImagePicker onResponse={setResponse}>

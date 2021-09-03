@@ -24,8 +24,6 @@ const HomeScreen = ({
     loadProductsRequest(1);
   }, [loadProductsRequest]);
 
-  console.warn(oriantation.fontScale);
-
   useEffect(() => {
     const getUser = async () => {
       try {
